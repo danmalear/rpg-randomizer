@@ -1,4 +1,5 @@
 import { PrismaClient } from '#prisma-client';
+import type { MessageResponse } from '#shared/dtos.ts';
 import { getMessage } from '#shared/error.ts';
 import { PrismaPg } from '@prisma/adapter-pg';
 import cors from 'cors';
@@ -127,7 +128,7 @@ function createAppServer() {
 		// commandBus,
 	});
 
-	app.use((req: Request, res: Response</*MessageResponse*/ unknown>) => {
+	app.use((req: Request, res: Response<MessageResponse>) => {
 		console.error('Unhandled request received');
 		res.status(404).send({ message: `Unknown route: ${req.path}` });
 	});
@@ -136,7 +137,7 @@ function createAppServer() {
 		(
 			err: unknown,
 			_req: Request,
-			res: Response</*MessageResponse*/ unknown>,
+			res: Response<MessageResponse>,
 			_next: NextFunction,
 		) => {
 			console.error(err instanceof Error ? err.stack : getMessage(err));
