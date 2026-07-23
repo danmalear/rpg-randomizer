@@ -1,0 +1,50 @@
+{
+	"name": "RPG Randomizer Server",
+	"version": "1.0.0",
+	"description": "Quickly roll on idea tables for RPGs. This project encompasses the server-side code.",
+	"main": "index.ts",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "Dan Malear",
+	"license": "ISC",
+	"packageManager": "pnpm@11.17.0",
+	"imports": {
+		"#command/*": "./src/framework/command/*",
+		"#event/*": "./src/framework/event/*",
+		"#framework/*": "./src/framework/*",
+		"#message/*": "./src/framework/message/*",
+		"#prisma/*": "./prisma/*",
+		"#prisma-client": "./prisma/generated/client.ts",
+		"#prisma-enums": "./prisma/generated/enums.ts",
+		"#prisma-models/*": "./prisma/generated/models/*",
+		"#shared/*": "./src/shared/*",
+		"#stream/*": "./src/framework/stream/*"
+	},
+	"dependencies": {
+		"@prisma/adapter-pg": "7.9.0",
+		"@prisma/client": "7.9.0",
+		"cors": "2.8.6",
+		"dotenv": "17.4.2",
+		"express": "5.2.1",
+		"lodash": "4.18.1",
+		"pg": "8.22.0",
+		"prisma": "7.9.0",
+		"ws": "8.21.1"
+	},
+	"devDependencies": {
+		"@eslint/js": "10.0.1",
+		"@types/cors": "2.8.19",
+		"@types/express": "5.0.6",
+		"@types/lodash": "4.17.24",
+		"@types/node": "26.1.1",
+		"@types/ws": "8.18.1",
+		"eslint": "10.7.0",
+		"eslint-config-prettier": "10.1.8",
+		"globals": "17.7.0",
+		"prettier": "3.9.6",
+		"typescript": "6.0.3",
+		"typescript-eslint": "8.65.0"
+	}
+}
