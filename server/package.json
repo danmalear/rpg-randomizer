@@ -10,6 +10,7 @@
 	"author": "Dan Malear",
 	"license": "ISC",
 	"packageManager": "pnpm@11.17.0",
+	"type": "module",
 	"imports": {
 		"#command/*": "./src/framework/command/*",
 		"#event/*": "./src/framework/event/*",
