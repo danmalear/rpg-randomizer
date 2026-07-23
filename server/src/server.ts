@@ -1,4 +1,5 @@
 import { PrismaClient } from '#prisma-client';
+import { getMessage } from '#shared/error.ts';
 import { PrismaPg } from '@prisma/adapter-pg';
 import cors from 'cors';
 import 'dotenv/config';
@@ -133,15 +134,15 @@ function createAppServer() {
 
 	app.use(
 		(
-			_err: unknown,
+			err: unknown,
 			_req: Request,
 			res: Response</*MessageResponse*/ unknown>,
 			_next: NextFunction,
 		) => {
-			// console.error(err instanceof Error ? err.stack : getMessage(err));
+			console.error(err instanceof Error ? err.stack : getMessage(err));
 			res
 				.status(500)
-				.send(/*{ message: `Internal server error: ${getMessage(err)}` }*/);
+				.send({ message: `Internal server error: ${getMessage(err)}` });
 		},
 	);
 
