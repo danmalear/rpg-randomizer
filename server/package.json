@@ -13,16 +13,8 @@
 	"packageManager": "pnpm@11.17.0",
 	"type": "module",
 	"imports": {
-		"#command/*": "./src/framework/command/*",
-		"#event/*": "./src/framework/event/*",
-		"#framework/*": "./src/framework/*",
-		"#message/*": "./src/framework/message/*",
-		"#prisma/*": "./prisma/*",
-		"#prisma-client": "./prisma/generated/client.ts",
-		"#prisma-enums": "./prisma/generated/enums.ts",
-		"#prisma-models/*": "./prisma/generated/models/*",
-		"#shared/*": "./src/shared/*",
-		"#stream/*": "./src/framework/stream/*"
+		"#command/*": "./src/command/*",
+		"#shared/*": "./src/shared/*"
 	},
 	"dependencies": {
 		"@prisma/orm-postgres": "8.0.0-rc.18",
