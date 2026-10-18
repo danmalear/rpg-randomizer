@@ -1,7 +1,6 @@
 import { PrismaClient } from '#prisma-client';
 import type { MessageResponse } from '#shared/dtos.ts';
 import { getMessage } from '#shared/error.ts';
-import { PrismaPg } from '@prisma/adapter-pg';
 import cors from 'cors';
 import 'dotenv/config';
 import express, {
@@ -105,8 +104,7 @@ function createAppServer() {
 
 	const server = createServer(app);
 
-	const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
-	const prisma = new PrismaClient({ adapter });
+	const prisma = new PrismaClient();
 
 	const repositories = initRepos(prisma);
 
