@@ -34,19 +34,15 @@ export interface IBaseRouter<
 	app: Express;
 	namespace: string;
 
-	init: ({
-		getOpts,
-		postOpts,
-		putOpts,
-		patchOpts,
-		deleteOpts,
-	}?: BaseRouterInitOpts<
-		GetOpts,
-		PostOpts,
-		PutOpts,
-		PatchOpts,
-		DeleteOpts
-	>) => void;
+	init: (
+		initOpts?: BaseRouterInitOpts<
+			GetOpts,
+			PostOpts,
+			PutOpts,
+			PatchOpts,
+			DeleteOpts
+		>,
+	) => void;
 
 	get: (_opts?: GetOpts) => void;
 	post: (_opts?: PostOpts) => void;
