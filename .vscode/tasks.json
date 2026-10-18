@@ -1,0 +1,44 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "node",
+			"type": "shell",
+			"command": "node --watch src/server.ts",
+			"options": {
+				"cwd": "server"
+			},
+			"problemMatcher": {
+				"pattern": {
+					"regexp": "."
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "Server listening on port",
+					"endsPattern": "Server listening on port"
+				}
+			},
+			"isBackground": true,
+			"hide": false,
+			"detail": "Start the backend Node server"
+		},
+		{
+			"label": "start-all",
+			"dependsOn": ["node"],
+			"dependsOrder": "sequence"
+		},
+		{
+			"label": "stop-all",
+			"type": "shell",
+			"command": "echo ${input:terminate}"
+		}
+	],
+	"inputs": [
+		{
+			"id": "terminate",
+			"type": "command",
+			"command": "workbench.action.tasks.terminate",
+			"args": "terminateAll"
+		}
+	]
+}
