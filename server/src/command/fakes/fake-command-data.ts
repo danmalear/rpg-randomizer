@@ -1,3 +1,5 @@
+import type { ICommand } from '#command/command.ts';
+
 const context = 'Context';
 const ref = 'DoThis';
 const data = {
@@ -6,6 +8,12 @@ const data = {
 };
 
 export const fakeCommandRequest = {
+	context,
+	ref,
+	data,
+};
+
+export const fakeCommand: ICommand = {
 	context,
 	ref,
 	data,
