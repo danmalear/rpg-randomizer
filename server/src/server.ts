@@ -1,4 +1,3 @@
-import { PrismaClient } from '#prisma-client';
 import type { MessageResponse } from '#shared/dtos.ts';
 import { getMessage } from '#shared/error.ts';
 import cors from 'cors';
@@ -15,7 +14,7 @@ import { createServer } from 'http';
 // eslint-disable-next-line
 interface Repositories {}
 
-function initRepos(_prisma: PrismaClient): Repositories {
+function initRepos(): Repositories {
 	return {};
 }
 
@@ -104,25 +103,20 @@ function createAppServer() {
 
 	const server = createServer(app);
 
-	const prisma = new PrismaClient();
-
-	const repositories = initRepos(prisma);
+	const repositories = initRepos();
 
 	initEventSubscribers({
 		repositories,
-		//  eventBus,
 	});
 
 	initCommandHandlers({
 		repositories,
-		// eventBus,
 		// commandBus,
 	});
 
 	initRouters({
 		app,
 		repositories,
-		// eventBus,
 		// commandBus,
 	});
 
