@@ -1,5 +1,8 @@
+import { CommandBus, type ICommandBus } from '#command/command-bus.ts';
+import { CommandRouter, type ICommandRouter } from '#command/command-router.ts';
 import type { MessageResponse } from '#shared/dtos.ts';
 import { getMessage } from '#shared/error.ts';
+import type { BaseRouterOpts } from '#shared/router.ts';
 import cors from 'cors';
 import 'dotenv/config';
 import express, {
@@ -20,7 +23,7 @@ function initRepos(): Repositories {
 
 interface InitCommandHandlersOpts {
 	repositories: Repositories;
-	// commandBus: ICommandBus;
+	commandBus: ICommandBus;
 }
 
 // Temporarily empty
@@ -29,7 +32,7 @@ interface CommandHandlers {}
 
 function initCommandHandlers({
 	repositories: _r,
-	// commandBus,
+	commandBus: _c,
 }: InitCommandHandlersOpts): CommandHandlers {
 	// Initialize
 
@@ -42,26 +45,36 @@ function initCommandHandlers({
 interface InitRoutersOpts {
 	app: Express;
 	repositories: Repositories;
-	// commandBus: ICommandBus;
+	commandBus: ICommandBus;
 }
 
-// Temporarily empty
-// eslint-disable-next-line
-interface Routers {}
+interface Routers {
+	command: ICommandRouter;
+}
 
 function initRouters({
-	app: _a,
+	app,
 	repositories: _r,
-	// commandBus,
+	commandBus,
 }: InitRoutersOpts): Routers {
 	// Define shared router opts
+	const baseRouterOpts: BaseRouterOpts = {
+		app,
+	};
 
 	// Initialize routers
+	const commandRouter = new CommandRouter({
+		...baseRouterOpts,
+		commandBus,
+	});
 
 	// Initialize routes
+	commandRouter.init();
 
 	// Return
-	return {};
+	return {
+		command: commandRouter,
+	};
 }
 
 function createAppServer() {
@@ -74,15 +87,17 @@ function createAppServer() {
 
 	const repositories = initRepos();
 
+	const commandBus = new CommandBus();
+
 	initCommandHandlers({
 		repositories,
-		// commandBus,
+		commandBus,
 	});
 
 	initRouters({
 		app,
 		repositories,
-		// commandBus,
+		commandBus,
 	});
 
 	app.use((req: Request, res: Response<MessageResponse>) => {
