@@ -41,37 +41,9 @@ function initCommandHandlers({
 	return {};
 }
 
-interface InitEventSubscribersOpts {
-	repositories: Repositories;
-	// eventBus: IEventBus;
-}
-
-// Temporarily empty
-// eslint-disable-next-line
-interface Projections {}
-
-interface EventSubscribers {
-	projections: Projections;
-}
-
-function initEventSubscribers({
-	repositories: _r,
-	// eventBus,
-}: InitEventSubscribersOpts): EventSubscribers {
-	// Initialize
-
-	// Subscribe
-
-	// Return
-	return {
-		projections: {},
-	};
-}
-
 interface InitRoutersOpts {
 	app: Express;
 	repositories: Repositories;
-	// eventBus: IEventBus;
 	// commandBus: ICommandBus;
 }
 
@@ -82,7 +54,6 @@ interface Routers {}
 function initRouters({
 	app: _a,
 	repositories: _r,
-	// eventBus,
 	// commandBus,
 }: InitRoutersOpts): Routers {
 	// Define shared router opts
@@ -104,10 +75,6 @@ function createAppServer() {
 	const server = createServer(app);
 
 	const repositories = initRepos();
-
-	initEventSubscribers({
-		repositories,
-	});
 
 	initCommandHandlers({
 		repositories,
