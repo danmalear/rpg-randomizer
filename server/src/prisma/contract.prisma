@@ -1,0 +1,8 @@
+// use prisma-8
+
+model Campaign {
+  CampaignId        Uuid      @id
+  Name      String
+  CreatedUtc TimestampString
+  UpdatedUtc temporal.updatedAtString()
+}
