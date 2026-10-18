@@ -20,7 +20,6 @@ function initRepos(): Repositories {
 
 interface InitCommandHandlersOpts {
 	repositories: Repositories;
-	// eventBus: IEventBus;
 	// commandBus: ICommandBus;
 }
 
@@ -30,7 +29,6 @@ interface CommandHandlers {}
 
 function initCommandHandlers({
 	repositories: _r,
-	// eventBus,
 	// commandBus,
 }: InitCommandHandlersOpts): CommandHandlers {
 	// Initialize
