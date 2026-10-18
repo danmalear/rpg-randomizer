@@ -24,6 +24,37 @@ export interface BaseRouterInitOpts<
 	deleteOpts?: DeleteOpts;
 }
 
+export interface IBaseRouter<
+	GetOpts = undefined,
+	PostOpts = undefined,
+	PutOpts = undefined,
+	PatchOpts = undefined,
+	DeleteOpts = undefined,
+> {
+	app: Express;
+	namespace: string;
+
+	init: ({
+		getOpts,
+		postOpts,
+		putOpts,
+		patchOpts,
+		deleteOpts,
+	}?: BaseRouterInitOpts<
+		GetOpts,
+		PostOpts,
+		PutOpts,
+		PatchOpts,
+		DeleteOpts
+	>) => void;
+
+	get: (_opts?: GetOpts) => void;
+	post: (_opts?: PostOpts) => void;
+	put: (_opts?: PutOpts) => void;
+	patch: (_opts?: PatchOpts) => void;
+	delete: (_opts?: DeleteOpts) => void;
+}
+
 /**
  * Base class to establish basic routes for a given namespace
  */
@@ -33,7 +64,7 @@ export class BaseRouter<
 	PutOpts = undefined,
 	PatchOpts = undefined,
 	DeleteOpts = undefined,
-> {
+> implements IBaseRouter<GetOpts, PostOpts, PutOpts, PatchOpts, DeleteOpts> {
 	app: Express;
 	namespace: string;
 
