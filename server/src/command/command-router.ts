@@ -1,6 +1,10 @@
 import type { DataResponse, MessageResponse } from '#shared/dtos.ts';
 import { getMessage, getStatusCode } from '#shared/error.ts';
-import { BaseRouter, type BaseRouterOpts } from '#shared/router.ts';
+import {
+	BaseRouter,
+	type BaseRouterOpts,
+	type IBaseRouter,
+} from '#shared/router.ts';
 import type { Response } from 'express';
 import type { ICommandBus } from './command-bus.ts';
 import { validateCommandRequest } from './command-dtos.ts';
@@ -10,7 +14,9 @@ export interface CommandRouterOpts extends BaseRouterOpts {
 	commandBus: ICommandBus;
 }
 
-export class CommandRouter extends BaseRouter {
+export type ICommandRouter = IBaseRouter;
+
+export class CommandRouter extends BaseRouter implements ICommandRouter {
 	commandBus: ICommandBus;
 
 	constructor({ app, commandBus }: CommandRouterOpts) {
