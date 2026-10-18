@@ -9,6 +9,11 @@ export type CommandRequest = {
 	data: object;
 };
 
+/**
+ * Validates that an object is a correctly formatted command request body
+ *
+ * @param obj Object to check
+ */
 export function validateCommandRequest(
 	obj: unknown,
 ): asserts obj is CommandRequest {
