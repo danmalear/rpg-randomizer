@@ -1,20 +1,10 @@
-import type { PrismaClient } from '#prisma-client';
 import type { UUID } from 'crypto';
 import { getMessage } from './error.ts';
-
-export interface IRepositoryConfig {
-	prisma: PrismaClient;
-}
 
 /**
  * Interface for data access repository - defines all baseline operations
  */
-export interface IRepository<
-	TModel,
-	TCreate,
-	TUpdate,
-	TModelIncludeAll extends TModel = TModel,
-> {
+export interface IRepository<TModel, TModelIncludeAll extends TModel = TModel> {
 	/**
 	 * Retrieves a record from the database by its UUID
 	 * @param id UUID of the record to retrieve
@@ -40,7 +30,7 @@ export interface IRepository<
 	 * @param data Data to insert into database
 	 * @returns The created record
 	 */
-	create(data: TCreate): Promise<TModel>;
+	create(data: TModel): Promise<TModel>;
 
 	/**
 	 * Updates an existing database record with new data
@@ -48,7 +38,7 @@ export interface IRepository<
 	 * @param data New data to update the record with
 	 * @returns The updated record
 	 */
-	update(id: UUID, data: TUpdate): Promise<TModel>;
+	update(id: UUID, data: TModel): Promise<TModel | null>;
 }
 
 /**
@@ -56,17 +46,9 @@ export interface IRepository<
  */
 export abstract class Repository<
 	TModel,
-	TCreateInput,
-	TUpdateInput,
 	TModelIncludeAll extends TModel = TModel,
-> implements IRepository<TModel, TCreateInput, TUpdateInput, TModelIncludeAll>
-{
-	prisma: PrismaClient;
+> implements IRepository<TModel, TModelIncludeAll> {
 	abstract descriptor: string;
-
-	constructor({ prisma }: IRepositoryConfig) {
-		this.prisma = prisma;
-	}
 
 	getByIdError(id: UUID, e: unknown) {
 		return new Error(
@@ -115,7 +97,7 @@ export abstract class Repository<
 	 * @param data Data to insert into database
 	 * @returns The inserted record
 	 */
-	abstract create(data: TCreateInput): Promise<TModel>;
+	abstract create(data: TModel): Promise<TModel>;
 
 	/**
 	 * Updates an existing database record with new data
@@ -123,5 +105,5 @@ export abstract class Repository<
 	 * @param data New data to update the record with
 	 * @returns The updated record
 	 */
-	abstract update(id: UUID, data: TUpdateInput): Promise<TModel>;
+	abstract update(id: UUID, data: TModel): Promise<TModel | null>;
 }
