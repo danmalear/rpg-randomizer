@@ -1,6 +1,6 @@
 import AppHeader from '#app-header/AppHeader.tsx';
 import { AppShell, AppShellMain, AppShellNavbar } from '@mantine/core';
-import { useLoaderData } from 'react-router';
+import { Outlet, useLoaderData } from 'react-router';
 import { CampaignContext } from './CampaignContext.ts';
 import type { campaignLoader } from './campaign-loader.ts';
 
@@ -28,7 +28,9 @@ const CampaignView: React.FC = () => {
 			>
 				<AppHeader title={campaign.name} />
 				<AppShellNavbar />
-				<AppShellMain h="100%">{campaign.name}</AppShellMain>
+				<AppShellMain h="100%">
+					<Outlet />
+				</AppShellMain>
 			</AppShell>
 		</CampaignContext>
 	);
