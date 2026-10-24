@@ -3,7 +3,7 @@ import type { Models } from '#prisma';
 import { Repository, type IRepository } from '#shared/repository.ts';
 import type { UUID } from 'crypto';
 
-type CampaignModel = Models.public_Campaign;
+export type CampaignModel = Models.public_Campaign;
 
 export type ICampaignRepository = IRepository<CampaignModel>;
 
