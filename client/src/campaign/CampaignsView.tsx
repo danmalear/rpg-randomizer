@@ -2,12 +2,14 @@ import AppHeader from '#app-header/AppHeader.tsx';
 import { getMessage } from '#shared/error.ts';
 import { Carousel } from '@mantine/carousel';
 import '@mantine/carousel/styles.css';
-import { ActionIcon, AppShell, Box, Card, Flex } from '@mantine/core';
+import { ActionIcon, AppShell, Box, Flex } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconPlus } from '@tabler/icons-react';
+import type { UUID } from 'node:crypto';
 import { useEffect, useRef, useState } from 'react';
 import type { CampaignResponse, CreateCampaign } from './campaign-dtos.ts';
 import { createCampaign, getAllCampaigns } from './campaign-service.ts';
+import CampaignCard from './CampaignCard.tsx';
 import CreateCampaignModal from './CreateCampaignModal.tsx';
 
 const CampaignsView: React.FC = () => {
@@ -29,19 +31,21 @@ const CampaignsView: React.FC = () => {
 			});
 	}, []);
 
-	// const handleOpenCampaignClicked = (campaignId: UUID) => {
-	// 	const selectedCampaign = campaigns.find((c) => c.id === campaignId);
+	const handleOpenCampaignClicked = (campaignId: UUID) => {
+		const selectedCampaign = campaigns.find((c) => c.id === campaignId);
 
-	// 	if (!selectedCampaign) {
-	// 		throw Error('Selected campaign does not exist');
-	// 	}
+		if (!selectedCampaign) {
+			throw Error('Selected campaign does not exist');
+		}
 
-	// 	let destination = `${campaignId}/map`;
-	// 	if (selectedCampaign.activeMapId) {
-	// 		destination += `/${selectedCampaign.activeMapId}`;
-	// 	}
-	// 	navigate(destination);
-	// };
+		alert(`Campaign ${selectedCampaign.name} selected`);
+
+		// 	let destination = `${campaignId}/map`;
+		// 	if (selectedCampaign.activeMapId) {
+		// 		destination += `/${selectedCampaign.activeMapId}`;
+		// 	}
+		// 	navigate(destination);
+	};
 
 	// #region Create campaign stuff
 	const [
@@ -80,9 +84,9 @@ const CampaignsView: React.FC = () => {
 	// #region Slides
 	const slides = campaigns.map((campaign) => (
 		<Carousel.Slide key={campaign.id}>
-			<Card
-			// campaign={campaign}
-			// onOpenCampaignClicked={handleOpenCampaignClicked}
+			<CampaignCard
+				campaign={campaign}
+				onOpenCampaignClicked={handleOpenCampaignClicked}
 			/>
 		</Carousel.Slide>
 	));
