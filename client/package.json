@@ -15,6 +15,7 @@
 	"packageManager": "pnpm@11.17.0",
 	"type": "module",
 	"imports": {
+		"#campaign/*": "./src/campaign/*",
 		"#shared/*": "./src/shared/*"
 	},
 	"dependencies": {
