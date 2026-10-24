@@ -60,20 +60,13 @@ const CampaignsView: React.FC = () => {
 		createCampaign(campaign)
 			.then((res) => {
 				setCampaigns([...campaignsRef.current, res.data.data]);
+				// navigate(`${correlationMatchState.matchedEvent.data.id}/map`);
 			})
 			.catch((e) => {
 				console.error(e);
 				alert(`Error creating campaign: ${getMessage(e)}`);
 			});
 	};
-
-	// useEffect(() => {
-	// 	if (correlationMatchState.matchedEvent) {
-	// 		validateCampaignCreated(correlationMatchState.matchedEvent.data);
-	// 		navigate(`${correlationMatchState.matchedEvent.data.id}/map`);
-	// 		correlationMatchDispatch({ type: 'clearMatchedEvent' });
-	// 	}
-	// }, [correlationMatchState.matchedEvent, navigate]);
 
 	// #endregion Create campaign stuff
 
