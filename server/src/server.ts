@@ -1,3 +1,9 @@
+import { CampaignCommandHandler } from '#campaign/campaign-commands.ts';
+import {
+	CampaignRepository,
+	type ICampaignRepository,
+} from '#campaign/campaign-repository.ts';
+import { CampaignRouter } from '#campaign/campaign-router.ts';
 import { CommandBus, type ICommandBus } from '#command/command-bus.ts';
 import type { ICommandHandler } from '#command/command-handler.ts';
 import { CommandRouter, type ICommandRouter } from '#command/command-router.ts';
@@ -14,12 +20,6 @@ import express, {
 	type Response,
 } from 'express';
 import { createServer } from 'http';
-import { CampaignCommandHandler } from './campaign/campaign-commands.ts';
-import {
-	CampaignRepository,
-	type ICampaignRepository,
-} from './campaign/campaign-repository.ts';
-import { CampaignRouter } from './campaign/campaign-router.ts';
 
 interface Repositories {
 	campaign: ICampaignRepository;
