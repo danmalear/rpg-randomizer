@@ -17,7 +17,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({ title, menuOptions }) => {
 					</Grid.Col>
 					<Grid.Col span={4}>
 						<Center>
-							<h2>{title}</h2>
+							{typeof title === 'string' ? <h2>{title}</h2> : title}
 						</Center>
 					</Grid.Col>
 					<Grid.Col span={4}>
