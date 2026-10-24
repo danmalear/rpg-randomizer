@@ -1,11 +1,25 @@
 import { TextInput, type TextInputProps } from '@mantine/core';
+import { useState } from 'react';
 
 interface EditableTextProps extends React.PropsWithChildren {
+	textElement?: React.ElementType;
 	inputProps?: TextInputProps;
 }
 
-const EditableText: React.FC<EditableTextProps> = ({ inputProps }) => {
-	return <TextInput {...inputProps}></TextInput>;
+const EditableText: React.FC<EditableTextProps> = ({
+	inputProps,
+	children,
+	...props
+}) => {
+	const [editing, setEditing] = useState(false);
+
+	const TextElement = props.textElement ?? 'span';
+
+	return editing ? (
+		<TextInput {...inputProps}></TextInput>
+	) : (
+		<TextElement>{children}</TextElement>
+	);
 };
 
 export default EditableText;
