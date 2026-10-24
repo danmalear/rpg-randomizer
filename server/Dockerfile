@@ -14,7 +14,7 @@ RUN npm install
 # Copy the rest of the application source code
 COPY . .
 
-ENV PORT=3000
+ENV PORT=3001
 EXPOSE $PORT
 
 # Run the application using the non-root user
