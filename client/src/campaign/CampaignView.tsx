@@ -1,4 +1,5 @@
 import AppHeader from '#app-header/AppHeader.tsx';
+import EditableText from '#shared/ui/EditableText.tsx';
 import { AppShell, AppShellMain, AppShellNavbar } from '@mantine/core';
 import { Outlet, useLoaderData } from 'react-router';
 import { CampaignContext } from './CampaignContext.ts';
@@ -26,7 +27,7 @@ const CampaignView: React.FC = () => {
 				offsetScrollbars={true}
 				h="100vh"
 			>
-				<AppHeader title={campaign.name} />
+				<AppHeader title={<EditableText>campaign.name</EditableText>} />
 				<AppShellNavbar />
 				<AppShellMain h="100%">
 					<Outlet />
