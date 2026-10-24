@@ -3,10 +3,12 @@ import { getMessage } from '#shared/error.ts';
 import { Carousel } from '@mantine/carousel';
 import '@mantine/carousel/styles.css';
 import { ActionIcon, AppShell, Box, Card, Flex } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { IconPlus } from '@tabler/icons-react';
-import { useEffect, useState } from 'react';
-import type { CampaignResponse } from './campaign-dtos.ts';
-import { getAllCampaigns } from './campaign-service.ts';
+import { useEffect, useRef, useState } from 'react';
+import type { CampaignResponse, CreateCampaign } from './campaign-dtos.ts';
+import { createCampaign, getAllCampaigns } from './campaign-service.ts';
+import CreateCampaignModal from './CreateCampaignModal.tsx';
 
 const CampaignsView: React.FC = () => {
 	// const navigate = useNavigate();
@@ -14,8 +16,7 @@ const CampaignsView: React.FC = () => {
 	const [campaigns, setCampaigns] = useState<CampaignResponse[]>([]);
 
 	// This keeps the array ref through callbacks
-	// const campaignsRef = useRef<CampaignResponse[]>([]);
-	// campaignsRef.current = campaigns;
+	const campaignsRef = useRef<CampaignResponse[]>(campaigns);
 
 	useEffect(() => {
 		getAllCampaigns()
@@ -43,65 +44,28 @@ const CampaignsView: React.FC = () => {
 	// };
 
 	// #region Create campaign stuff
-	// const [
-	// 	createCampaignOpened,
-	// 	{ open: openCreateCampaign, close: closeCreateCampaign },
-	// ] = useDisclosure(false);
+	const [
+		createCampaignOpened,
+		{ open: openCreateCampaign, close: closeCreateCampaign },
+	] = useDisclosure(false);
 
-	// const [correlationMatchState, correlationMatchDispatch] = useReducer(
-	// 	correlationMatchReducer,
-	// 	{
-	// 		isListeningForMatch: false,
-	// 		commandCorrelationId: undefined,
-	// 		eventsByCorrelationId: {},
-	// 	},
-	// );
+	const handleAddCampaignClicked: React.MouseEventHandler<HTMLButtonElement> = (
+		e,
+	) => {
+		e.preventDefault();
+		openCreateCampaign();
+	};
 
-	// const handleAddCampaignClicked: React.MouseEventHandler<HTMLButtonElement> = (
-	// 	e,
-	// ) => {
-	// 	e.preventDefault();
-	// 	openCreateCampaign();
-	// };
-
-	// const handleCreateCampaign = (campaign: CreateCampaign) => {
-	// 	correlationMatchDispatch({
-	// 		type: 'listenForMatch',
-	// 	});
-	// 	createCampaign(campaign)
-	// 		.then((res) => {
-	// 			correlationMatchDispatch({
-	// 				type: 'matchCommand',
-	// 				commandCorrelationId: res.data.data.correlationId,
-	// 			});
-	// 		})
-	// 		.catch((e) => {
-	// 			console.error(e);
-	// 			alert(`Error creating campaign: ${getMessage(e)}`);
-	// 		});
-	// };
-
-	// const handleCampaignCreated = (event: Event) => {
-	// 	try {
-	// 		validateCampaignCreated(event.data);
-	// 		setCampaigns([...campaignsRef.current, event.data]);
-	// 		correlationMatchDispatch({
-	// 			type: 'matchEvent',
-	// 			event: event,
-	// 		});
-	// 	} catch (e) {
-	// 		console.error('Invalid campaign created event caught:', getMessage(e));
-	// 	}
-	// };
-
-	// useEventListener(
-	// 	'CampaignsView',
-	// 	{
-	// 		context: 'Campaign',
-	// 		ref: 'Created',
-	// 	},
-	// 	handleCampaignCreated,
-	// );
+	const handleCreateCampaign = (campaign: CreateCampaign) => {
+		createCampaign(campaign)
+			.then((res) => {
+				setCampaigns([...campaignsRef.current, res.data.data]);
+			})
+			.catch((e) => {
+				console.error(e);
+				alert(`Error creating campaign: ${getMessage(e)}`);
+			});
+	};
 
 	// useEffect(() => {
 	// 	if (correlationMatchState.matchedEvent) {
@@ -147,7 +111,7 @@ const CampaignsView: React.FC = () => {
 				style={{
 					borderStyle: 'dashed',
 				}}
-				// onClick={handleAddCampaignClicked}
+				onClick={handleAddCampaignClicked}
 			>
 				<IconPlus />
 			</ActionIcon>
@@ -157,11 +121,11 @@ const CampaignsView: React.FC = () => {
 
 	return (
 		<>
-			{/* <CreateCampaignModal
+			<CreateCampaignModal
 				opened={createCampaignOpened}
 				onClose={closeCreateCampaign}
 				onCreate={handleCreateCampaign}
-			/> */}
+			/>
 			<AppShell
 				id="app-shell"
 				h="100vh"
