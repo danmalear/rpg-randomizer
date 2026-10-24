@@ -1,8 +1,10 @@
 import { CommandBus, type ICommandBus } from '#command/command-bus.ts';
+import type { ICommandHandler } from '#command/command-handler.ts';
 import { CommandRouter, type ICommandRouter } from '#command/command-router.ts';
 import type { MessageResponse } from '#shared/dtos.ts';
 import { getMessage } from '#shared/error.ts';
-import type { BaseRouterOpts } from '#shared/router.ts';
+import type { BaseObjectRouterOpts } from '#shared/object-router.ts';
+import type { BaseRouterOpts, IBaseRouter } from '#shared/router.ts';
 import cors from 'cors';
 import 'dotenv/config';
 import express, {
@@ -12,13 +14,23 @@ import express, {
 	type Response,
 } from 'express';
 import { createServer } from 'http';
+import { CampaignCommandHandler } from './campaign/campaign-commands.ts';
+import {
+	CampaignRepository,
+	type ICampaignRepository,
+} from './campaign/campaign-repository.ts';
+import { CampaignRouter } from './campaign/campaign-router.ts';
 
-// Temporarily empty
-// eslint-disable-next-line
-interface Repositories {}
+interface Repositories {
+	campaign: ICampaignRepository;
+}
 
 function initRepos(): Repositories {
-	return {};
+	const campaign = new CampaignRepository();
+
+	return {
+		campaign,
+	};
 }
 
 interface InitCommandHandlersOpts {
@@ -26,20 +38,26 @@ interface InitCommandHandlersOpts {
 	commandBus: ICommandBus;
 }
 
-// Temporarily empty
-// eslint-disable-next-line
-interface CommandHandlers {}
+interface CommandHandlers {
+	campaign: ICommandHandler;
+}
 
 function initCommandHandlers({
-	repositories: _r,
-	commandBus: _c,
+	repositories,
+	commandBus,
 }: InitCommandHandlersOpts): CommandHandlers {
 	// Initialize
+	const campaign = new CampaignCommandHandler({
+		campaignRepository: repositories.campaign,
+	});
 
 	// Subscribe
+	commandBus.subscribe('Campaign', campaign);
 
 	// Return
-	return {};
+	return {
+		campaign,
+	};
 }
 
 interface InitRoutersOpts {
@@ -50,16 +68,23 @@ interface InitRoutersOpts {
 
 interface Routers {
 	command: ICommandRouter;
+
+	campaign: IBaseRouter;
 }
 
 function initRouters({
 	app,
-	repositories: _r,
+	repositories,
 	commandBus,
 }: InitRoutersOpts): Routers {
 	// Define shared router opts
 	const baseRouterOpts: BaseRouterOpts = {
 		app,
+	};
+
+	const baseObjectRouterOpts: Omit<BaseObjectRouterOpts, 'repository'> = {
+		...baseRouterOpts,
+		commandBus,
 	};
 
 	// Initialize routers
@@ -68,12 +93,19 @@ function initRouters({
 		commandBus,
 	});
 
+	const campaignRouter = new CampaignRouter({
+		...baseObjectRouterOpts,
+		repository: repositories.campaign,
+	});
+
 	// Initialize routes
 	commandRouter.init();
+	campaignRouter.init();
 
 	// Return
 	return {
 		command: commandRouter,
+		campaign: campaignRouter,
 	};
 }
 
