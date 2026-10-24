@@ -27,7 +27,7 @@ const CampaignView: React.FC = () => {
 				offsetScrollbars={true}
 				h="100vh"
 			>
-				<AppHeader title={<EditableText>campaign.name</EditableText>} />
+				<AppHeader title={<EditableText>{campaign.name}</EditableText>} />
 				<AppShellNavbar />
 				<AppShellMain h="100%">
 					<Outlet />
