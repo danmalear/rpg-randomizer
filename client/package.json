@@ -22,6 +22,7 @@
 	"dependencies": {
 		"@mantine/carousel": "^9.7.3",
 		"@mantine/core": "^9.7.3",
+		"@mantine/form": "^9.7.3",
 		"@mantine/hooks": "^9.7.3",
 		"@tabler/core": "^1.7.0",
 		"@tabler/icons-react": "^3.49.0",
