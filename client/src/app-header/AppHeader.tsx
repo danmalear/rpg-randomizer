@@ -3,7 +3,7 @@ import AppBreadcrumbs from './AppBreadcrumbs.tsx';
 import AppHeaderMenu from './AppHeaderMenu.tsx';
 
 export interface AppHeaderProps extends React.PropsWithChildren {
-	title: string;
+	title: React.ReactNode;
 	menuOptions?: React.ReactNode;
 }
 
