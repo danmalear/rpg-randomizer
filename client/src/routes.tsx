@@ -1,5 +1,6 @@
 // import { campaignLoader } from '#campaign/campaign-loader.ts';
 // import CampaignsView from '#campaign/CampaignsView.tsx';
+import { campaignLoader } from '#campaign/campaign-loader.ts';
 import { createBrowserRouter } from 'react-router';
 import App from './App.tsx';
 
@@ -17,21 +18,21 @@ const router = createBrowserRouter([
 			</main>
 		),
 		children: [
-			// {
-			// 	path: 'campaign',
-			// 	children: [
-			// 		{
-			// 			index: true,
-			// 			Component: CampaignsView,
-			// 		},
-			// 		{
-			// 			path: ':campaignId',
-			// 			loader: campaignLoader,
-			// 			Component: CampaignView,
-			// 			children: [],
-			// 		},
-			// 	],
-			// },
+			{
+				path: 'campaign',
+				children: [
+					{
+						index: true,
+						// 			Component: CampaignsView,
+					},
+					{
+						path: ':campaignId',
+						loader: campaignLoader,
+						// Component: CampaignView,
+						children: [],
+					},
+				],
+			},
 		],
 	},
 ]);
