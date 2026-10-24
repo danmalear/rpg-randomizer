@@ -3,6 +3,7 @@ import type { DataResponse } from '#shared/dtos.ts';
 import type { UUID } from 'crypto';
 import type {
 	CampaignResponse,
+	CreateCampaign,
 	CreateCampaignCommand,
 } from './campaign-dtos.ts';
 
@@ -14,7 +15,7 @@ export const getCampaign = async (id: UUID) => {
 	return await api.get<DataResponse<CampaignResponse>>(`/campaigns/${id}`);
 };
 
-export const createCampaign = async (data: CampaignResponse) => {
+export const createCampaign = async (data: CreateCampaign) => {
 	const commandRequest: CreateCampaignCommand = {
 		context: 'Campaign',
 		ref: 'Create',
