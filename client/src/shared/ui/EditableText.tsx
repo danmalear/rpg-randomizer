@@ -13,7 +13,6 @@ const EditableText: React.FC<EditableTextProps> = ({
 	...props
 }) => {
 	const [editing, setEditing] = useState(false);
-
 	const [isEditVisible, setIsEditVisible] = useState(false);
 
 	const TextElement = props.textElement ?? 'span';
@@ -27,6 +26,7 @@ const EditableText: React.FC<EditableTextProps> = ({
 			}}
 			onMouseEnter={() => setIsEditVisible(true)}
 			onMouseLeave={() => setIsEditVisible(false)}
+			onClick={() => setEditing(true)}
 		>
 			{children}{' '}
 			<IconEdit
