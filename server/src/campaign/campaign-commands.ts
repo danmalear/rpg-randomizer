@@ -18,7 +18,7 @@ function validateCreateCampaign(
 	if (!('name' in command) || !command.name) {
 		throw new BadRequestError('New campaigns must have a name specified');
 	}
-	if (typeof command.name !== 'string') {
+	if (typeof command.name !== 'string' || !command.name.length) {
 		throw new BadRequestError(
 			`Invalid name specified for new campaign: ${command.name}`,
 		);
