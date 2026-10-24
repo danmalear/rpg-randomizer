@@ -1,7 +1,7 @@
-// import { campaignLoader } from '#campaign/campaign-loader.ts';
-// import CampaignsView from '#campaign/CampaignsView.tsx';
 import { campaignLoader } from '#campaign/campaign-loader.ts';
+import CampaignDashboard from '#campaign/CampaignDashboard.tsx';
 import CampaignsView from '#campaign/CampaignsView.tsx';
+import CampaignView from '#campaign/CampaignView.tsx';
 import { createBrowserRouter } from 'react-router';
 import App from './App.tsx';
 
@@ -29,8 +29,13 @@ const router = createBrowserRouter([
 					{
 						path: ':campaignId',
 						loader: campaignLoader,
-						// Component: CampaignView,
-						children: [],
+						Component: CampaignView,
+						children: [
+							{
+								index: true,
+								Component: CampaignDashboard,
+							},
+						],
 					},
 				],
 			},
