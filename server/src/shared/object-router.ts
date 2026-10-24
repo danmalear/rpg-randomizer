@@ -42,8 +42,8 @@ type AllBaseObjectRouterOpts<
  */
 export class BaseObjectRouter<
 	TModel,
-	TModelIncludeAll extends TModel,
 	TDto,
+	TModelIncludeAll extends TModel = TModel,
 	TStub = TDto,
 	TRepository extends IRepository<TModel, TModelIncludeAll> = IRepository<
 		TModel,
