@@ -18,7 +18,7 @@ const EditableText: React.FC<EditableTextProps> = ({
 	const TextElement = props.textElement ?? 'span';
 
 	return editing ? (
-		<TextInput {...inputProps}></TextInput>
+		<TextInput {...inputProps} />
 	) : (
 		<TextElement
 			style={{
