@@ -7,13 +7,14 @@ import { useDisclosure } from '@mantine/hooks';
 import { IconPlus } from '@tabler/icons-react';
 import type { UUID } from 'node:crypto';
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router';
 import type { CampaignResponse, CreateCampaign } from './campaign-dtos.ts';
 import { createCampaign, getAllCampaigns } from './campaign-service.ts';
 import CampaignCard from './CampaignCard.tsx';
 import CreateCampaignModal from './CreateCampaignModal.tsx';
 
 const CampaignsView: React.FC = () => {
-	// const navigate = useNavigate();
+	const navigate = useNavigate();
 
 	const [campaigns, setCampaigns] = useState<CampaignResponse[]>([]);
 
@@ -38,13 +39,8 @@ const CampaignsView: React.FC = () => {
 			throw Error('Selected campaign does not exist');
 		}
 
-		alert(`Campaign ${selectedCampaign.name} selected`);
-
-		// 	let destination = `${campaignId}/map`;
-		// 	if (selectedCampaign.activeMapId) {
-		// 		destination += `/${selectedCampaign.activeMapId}`;
-		// 	}
-		// 	navigate(destination);
+		const destination = `${campaignId}`;
+		navigate(destination);
 	};
 
 	// #region Create campaign stuff
