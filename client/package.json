@@ -18,6 +18,7 @@
 		"@mantine/carousel": "^9.7.3",
 		"@mantine/core": "^9.7.3",
 		"@mantine/hooks": "^9.7.3",
+		"axios": "^1.20.0",
 		"embla-carousel": "^8.6.0",
 		"embla-carousel-react": "^8.6.0",
 		"react": "^19.3.1",
