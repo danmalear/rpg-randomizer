@@ -2,6 +2,27 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"label": "vite",
+			"type": "shell",
+			"command": "pnpm run dev",
+			"options": {
+				"cwd": "client"
+			},
+			"isBackground": true,
+			"problemMatcher": {
+				"pattern": {
+					"regexp": "."
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "VITE v",
+					"endsPattern": "ready in .*ms"
+				}
+			},
+			"hide": false,
+			"detail": "Start the Vite dev server"
+		},
+		{
 			"label": "node",
 			"type": "shell",
 			"command": "node --watch src/server.ts",
@@ -24,7 +45,7 @@
 		},
 		{
 			"label": "start-all",
-			"dependsOn": ["node"],
+			"dependsOn": ["node", "vite"],
 			"dependsOrder": "sequence"
 		},
 		{

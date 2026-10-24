@@ -8,7 +8,7 @@
 			"name": "Debug app in Chrome",
 			"type": "chrome",
 			"request": "launch",
-			"url": "http://localhost:3001",
+			"url": "http://localhost:8081",
 			"preLaunchTask": "start-all",
 			"postDebugTask": "stop-all"
 		}
