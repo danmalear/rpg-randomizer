@@ -31,7 +31,6 @@ const EditableText: React.FC<EditableTextProps> = ({
 
 	const onClick = () => {
 		setEditing(true);
-		setIsEditVisible(false);
 	};
 
 	// #endregion Text mode
@@ -86,6 +85,8 @@ const EditableText: React.FC<EditableTextProps> = ({
 			rightSectionWidth={100}
 			rightSection={actionIcons}
 			rightSectionPointerEvents="all"
+			onMouseEnter={() => setIsEditVisible(true)}
+			onMouseLeave={() => setIsEditVisible(false)}
 			onChange={onChange}
 			{...inputProps}
 			onKeyUp={(e) => {
