@@ -15,6 +15,12 @@ export interface CreateCampaign {
 
 export type CreateCampaignCommand = CampaignCommand<'Create', CreateCampaign>;
 
+export interface RenameCampaign {
+	name: string;
+}
+
+export type RenameCampaignCommand = CampaignCommand<'Rename', RenameCampaign>;
+
 // Queries
 
 /**
