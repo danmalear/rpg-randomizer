@@ -3,6 +3,7 @@ import type { CommandFunction } from '#command/command-types.ts';
 import type { ICommand } from '#command/command.ts';
 import { BadRequestError, NotFoundError } from '#shared/error.ts';
 import { randomUUID, type UUID } from 'node:crypto';
+import { toDto } from './campaign-mappers.ts';
 import type {
 	CampaignModel,
 	ICampaignRepository,
@@ -91,7 +92,9 @@ export class CampaignCommandHandler implements ICommandHandler {
 			UpdatedUtc: createTime,
 		};
 
-		return await this.campaignRepository.create(campaign);
+		const newCampaign = await this.campaignRepository.create(campaign);
+
+		return toDto(newCampaign);
 	};
 
 	Rename: CommandFunction = async (command) => {
@@ -108,6 +111,6 @@ export class CampaignCommandHandler implements ICommandHandler {
 			throw new NotFoundError(`Campaign not found for ID: ${command.data.id}`);
 		}
 
-		return campaign;
+		return toDto(campaign);
 	};
 }
