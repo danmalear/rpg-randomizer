@@ -19,6 +19,17 @@ const EditableText: React.FC<EditableTextProps> = ({
 	const [editing, setEditing] = useState(false);
 	const [isEditVisible, setIsEditVisible] = useState(false);
 
+	// #region Text mode
+
+	const onClick = () => {
+		setEditing(true);
+		setIsEditVisible(false);
+	};
+
+	// #endregion Text mode
+
+	// #region Editing mode
+
 	const [editingValue, setEditingValue] = useState(value);
 	const onChange: React.ChangeEventHandler<
 		HTMLInputElement,
@@ -35,6 +46,8 @@ const EditableText: React.FC<EditableTextProps> = ({
 	const handleEscPressed = cancelEdit;
 
 	const ref = useClickOutside(cancelEdit);
+
+	// #endregion Editing mode
 
 	return editing ? (
 		<TextInput
@@ -60,7 +73,7 @@ const EditableText: React.FC<EditableTextProps> = ({
 			}}
 			onMouseEnter={() => setIsEditVisible(true)}
 			onMouseLeave={() => setIsEditVisible(false)}
-			onClick={() => setEditing(true)}
+			onClick={onClick}
 		>
 			{value}{' '}
 			<IconEdit
