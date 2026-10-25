@@ -46,6 +46,11 @@ const EditableText: React.FC<EditableTextProps> = ({
 		setEditingValue(e.currentTarget.value);
 	};
 
+	const cancelEdit = () => {
+		setEditing(false);
+		setEditingValue(value);
+	};
+
 	const [inputRef, setInputRef] = useState<HTMLInputElement | null>(null);
 	const [actionIconsRef, setActionIconsRef] = useState<HTMLDivElement | null>(
 		null,
@@ -60,17 +65,12 @@ const EditableText: React.FC<EditableTextProps> = ({
 				>
 					<IconCheck color={theme.colors.green[2]} />
 				</ActionIcon>
-				<ActionIcon variant="transparent" onClick={() => alert('X clicked')}>
+				<ActionIcon variant="transparent" onClick={cancelEdit}>
 					<IconX color={theme.colors.red[2]} />
 				</ActionIcon>
 			</Group>
 		</div>
 	);
-
-	const cancelEdit = () => {
-		setEditing(false);
-		setEditingValue(value);
-	};
 
 	const handleEscPressed = cancelEdit;
 
