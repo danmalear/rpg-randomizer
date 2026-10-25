@@ -11,12 +11,14 @@ import React, { useState } from 'react';
 
 interface EditableTextProps extends React.PropsWithChildren {
 	value: string;
+	onSubmit: (value: string) => void;
 	textElement?: React.ElementType;
 	inputProps?: TextInputProps;
 }
 
 const EditableText: React.FC<EditableTextProps> = ({
 	value,
+	onSubmit: emitSubmit,
 	inputProps,
 	...props
 }) => {
@@ -45,6 +47,11 @@ const EditableText: React.FC<EditableTextProps> = ({
 		setEditingValue(e.currentTarget.value);
 	};
 
+	const confirmEdit = () => {
+		setEditing(false);
+		emitSubmit(editingValue);
+	};
+
 	const cancelEdit = () => {
 		setEditing(false);
 		setEditingValue(value);
@@ -58,10 +65,7 @@ const EditableText: React.FC<EditableTextProps> = ({
 	const actionIcons = (
 		<div ref={setActionIconsRef}>
 			<Group gap="xs">
-				<ActionIcon
-					variant="transparent"
-					onClick={() => alert('check clicked')}
-				>
+				<ActionIcon variant="transparent" onClick={confirmEdit}>
 					<IconCheck color={theme.colors.green[2]} />
 				</ActionIcon>
 				<ActionIcon variant="transparent" onClick={cancelEdit}>
@@ -71,8 +75,9 @@ const EditableText: React.FC<EditableTextProps> = ({
 		</div>
 	);
 
-	const handleEscPressed = cancelEdit;
+	const handleEnterPressed = confirmEdit;
 
+	const handleEscPressed = cancelEdit;
 	useClickOutside(cancelEdit, undefined, [inputRef, actionIconsRef]);
 
 	// #endregion Editing mode
@@ -93,6 +98,9 @@ const EditableText: React.FC<EditableTextProps> = ({
 				switch (e.key) {
 					case 'Escape':
 						handleEscPressed();
+						break;
+					case 'Enter':
+						handleEnterPressed();
 						break;
 					default:
 						console.log(`${e.key} pressed - unhandled`);
