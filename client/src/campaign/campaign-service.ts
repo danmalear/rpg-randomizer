@@ -5,6 +5,8 @@ import type {
 	CampaignResponse,
 	CreateCampaign,
 	CreateCampaignCommand,
+	RenameCampaign,
+	RenameCampaignCommand,
 } from './campaign-dtos.ts';
 
 export const getAllCampaigns = async () => {
@@ -20,6 +22,18 @@ export const createCampaign = async (data: CreateCampaign) => {
 		context: 'Campaign',
 		ref: 'Create',
 		data: data,
+	};
+	return await api.post<DataResponse<CampaignResponse>>(
+		`/commands`,
+		commandRequest,
+	);
+};
+
+export const renameCampaign = async (data: RenameCampaign) => {
+	const commandRequest: RenameCampaignCommand = {
+		context: 'Campaign',
+		ref: 'Rename',
+		data,
 	};
 	return await api.post<DataResponse<CampaignResponse>>(
 		`/commands`,
