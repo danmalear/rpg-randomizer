@@ -46,6 +46,7 @@ const EditableText: React.FC<EditableTextProps> = ({
 		setEditingValue(e.currentTarget.value);
 	};
 
+	const [inputRef, setInputRef] = useState<HTMLInputElement | null>(null);
 	const [actionIconsRef, setActionIconsRef] = useState<HTMLDivElement | null>(
 		null,
 	);
@@ -73,14 +74,14 @@ const EditableText: React.FC<EditableTextProps> = ({
 
 	const handleEscPressed = cancelEdit;
 
-	const ref = useClickOutside(cancelEdit, undefined, [actionIconsRef]);
+	useClickOutside(cancelEdit, undefined, [inputRef, actionIconsRef]);
 
 	// #endregion Editing mode
 
 	return editing ? (
 		<TextInput
 			autoFocus
-			ref={ref}
+			ref={setInputRef}
 			value={editingValue}
 			rightSectionWidth={100}
 			rightSection={actionIcons}
