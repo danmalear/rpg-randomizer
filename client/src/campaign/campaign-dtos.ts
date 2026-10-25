@@ -16,6 +16,7 @@ export interface CreateCampaign {
 export type CreateCampaignCommand = CampaignCommand<'Create', CreateCampaign>;
 
 export interface RenameCampaign {
+	id: UUID;
 	name: string;
 }
 
