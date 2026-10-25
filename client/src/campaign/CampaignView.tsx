@@ -28,9 +28,7 @@ const CampaignView: React.FC = () => {
 				h="100vh"
 			>
 				<AppHeader
-					title={
-						<EditableText textElement={'h2'}>{campaign.name}</EditableText>
-					}
+					title={<EditableText textElement={'h2'} value={campaign.name} />}
 				/>
 				<AppShellNavbar />
 				<AppShellMain h="100%">
