@@ -1,6 +1,12 @@
-import { TextInput, type TextInputProps } from '@mantine/core';
+import {
+	ActionIcon,
+	Group,
+	TextInput,
+	useMantineTheme,
+	type TextInputProps,
+} from '@mantine/core';
 import { useClickOutside } from '@mantine/hooks';
-import { IconEdit } from '@tabler/icons-react';
+import { IconCheck, IconEdit, IconX } from '@tabler/icons-react';
 import React, { useState } from 'react';
 
 interface EditableTextProps extends React.PropsWithChildren {
@@ -14,12 +20,14 @@ const EditableText: React.FC<EditableTextProps> = ({
 	inputProps,
 	...props
 }) => {
-	const TextElement = props.textElement ?? 'span';
-
+	const theme = useMantineTheme();
 	const [editing, setEditing] = useState(false);
-	const [isEditVisible, setIsEditVisible] = useState(false);
 
 	// #region Text mode
+
+	const TextElement = props.textElement ?? 'span';
+
+	const [isEditVisible, setIsEditVisible] = useState(false);
 
 	const onClick = () => {
 		setEditing(true);
@@ -38,6 +46,26 @@ const EditableText: React.FC<EditableTextProps> = ({
 		setEditingValue(e.currentTarget.value);
 	};
 
+	const [actionIconsRef, setActionIconsRef] = useState<HTMLDivElement | null>(
+		null,
+	);
+
+	const actionIcons = (
+		<div ref={setActionIconsRef}>
+			<Group gap="xs">
+				<ActionIcon
+					variant="transparent"
+					onClick={() => alert('check clicked')}
+				>
+					<IconCheck color={theme.colors.green[2]} />
+				</ActionIcon>
+				<ActionIcon variant="transparent" onClick={() => alert('X clicked')}>
+					<IconX color={theme.colors.red[2]} />
+				</ActionIcon>
+			</Group>
+		</div>
+	);
+
 	const cancelEdit = () => {
 		setEditing(false);
 		setEditingValue(value);
@@ -45,7 +73,7 @@ const EditableText: React.FC<EditableTextProps> = ({
 
 	const handleEscPressed = cancelEdit;
 
-	const ref = useClickOutside(cancelEdit);
+	const ref = useClickOutside(cancelEdit, undefined, [actionIconsRef]);
 
 	// #endregion Editing mode
 
@@ -54,6 +82,9 @@ const EditableText: React.FC<EditableTextProps> = ({
 			autoFocus
 			ref={ref}
 			value={editingValue}
+			rightSectionWidth={100}
+			rightSection={actionIcons}
+			rightSectionPointerEvents="all"
 			onChange={onChange}
 			{...inputProps}
 			onKeyUp={(e) => {
