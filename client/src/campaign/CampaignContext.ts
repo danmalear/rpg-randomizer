@@ -1,4 +1,9 @@
-import { createContext } from 'react';
-import type { CampaignResponse } from './campaign-dtos.ts';
+import { createContext, type Dispatch } from 'react';
+import type { CampaignAction, CampaignState } from './campaign-reducer';
 
-export const CampaignContext = createContext<CampaignResponse>(null!);
+export interface ICampaignContext {
+	state: CampaignState;
+	dispatch: Dispatch<CampaignAction>;
+}
+
+export const CampaignContext = createContext<ICampaignContext>(null!);

@@ -1,51 +1,23 @@
-import AppHeader from '#app-header/AppHeader.tsx';
-import { getMessage } from '#shared/error.ts';
-import EditableText from '#shared/ui/EditableText.tsx';
-import {
-	AppShell,
-	AppShellMain,
-	AppShellNavbar,
-	Skeleton,
-} from '@mantine/core';
-import { useState } from 'react';
-import { Outlet, useLoaderData, useRevalidator } from 'react-router';
-import { CampaignContext } from './CampaignContext.ts';
+import { AppShell, AppShellMain, AppShellNavbar } from '@mantine/core';
+import { useReducer } from 'react';
+import { Outlet, useLoaderData } from 'react-router';
 import { campaignLoader } from './campaign-loader.ts';
-import { renameCampaign } from './campaign-service.ts';
+import campaignReducer from './campaign-reducer.ts';
+import CampaignAppHeader from './CampaignAppHeader.tsx';
+import { CampaignContext } from './CampaignContext.ts';
 
 const CampaignView: React.FC = () => {
-	const { campaign: loadedCampaign } = useLoaderData<typeof campaignLoader>();
-	const [campaign, setCampaign] = useState(loadedCampaign);
-	const revalidator = useRevalidator();
-
-	// #region Rename
-
-	const [isRenaming, setIsRenaming] = useState(false);
-
-	const handleNameUpdate = (value: string) => {
-		if (value === campaign.name) return;
-
-		setIsRenaming(true);
-		renameCampaign({
-			id: campaign.id,
-			name: value,
-		})
-			.then(async (res) => {
-				setCampaign(res.data.data);
-				await revalidator.revalidate();
-			})
-			.catch((e) => {
-				alert(`Error renaming campaign: ${getMessage(e)}`);
-			})
-			.finally(() => {
-				setIsRenaming(false);
-			});
-	};
-
-	// #endregion Rename
+	const [campaignState, campaignDispatch] = useReducer(campaignReducer, {
+		campaign: useLoaderData<typeof campaignLoader>().campaign,
+	});
 
 	return (
-		<CampaignContext value={campaign}>
+		<CampaignContext
+			value={{
+				state: campaignState,
+				dispatch: campaignDispatch,
+			}}
+		>
 			<AppShell
 				id="app-shell"
 				header={{
@@ -63,19 +35,7 @@ const CampaignView: React.FC = () => {
 				offsetScrollbars={true}
 				h="100vh"
 			>
-				<AppHeader
-					title={
-						isRenaming ? (
-							<Skeleton height="1em"></Skeleton>
-						) : (
-							<EditableText
-								textElement={'h2'}
-								value={campaign.name}
-								onSubmit={handleNameUpdate}
-							/>
-						)
-					}
-				/>
+				<CampaignAppHeader />
 				<AppShellNavbar />
 				<AppShellMain h="100%">
 					<Outlet />
