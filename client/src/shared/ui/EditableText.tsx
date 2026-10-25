@@ -102,8 +102,6 @@ const EditableText: React.FC<EditableTextProps> = ({
 					case 'Enter':
 						handleEnterPressed();
 						break;
-					default:
-						console.log(`${e.key} pressed - unhandled`);
 				}
 			}}
 		/>
