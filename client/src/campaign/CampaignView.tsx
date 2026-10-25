@@ -1,12 +1,30 @@
 import AppHeader from '#app-header/AppHeader.tsx';
+import { getMessage } from '#shared/error.ts';
 import EditableText from '#shared/ui/EditableText.tsx';
 import { AppShell, AppShellMain, AppShellNavbar } from '@mantine/core';
-import { Outlet, useLoaderData } from 'react-router';
+import { Outlet, useLoaderData, useRevalidator } from 'react-router';
 import { CampaignContext } from './CampaignContext.ts';
-import type { campaignLoader } from './campaign-loader.ts';
+import { campaignLoader } from './campaign-loader.ts';
+import { renameCampaign } from './campaign-service.ts';
 
 const CampaignView: React.FC = () => {
 	const { campaign } = useLoaderData<typeof campaignLoader>();
+	const revalidator = useRevalidator();
+
+	const handleNameUpdate = (value: string) => {
+		if (value === campaign.name) return;
+
+		renameCampaign({
+			id: campaign.id,
+			name: value,
+		})
+			.catch((e) => {
+				alert(`Error renaming campaign: ${getMessage(e)}`);
+			})
+			.finally(() => {
+				revalidator.revalidate();
+			});
+	};
 
 	return (
 		<CampaignContext value={campaign}>
@@ -32,7 +50,7 @@ const CampaignView: React.FC = () => {
 						<EditableText
 							textElement={'h2'}
 							value={campaign.name}
-							onSubmit={(value) => alert(`Title changed to ${value}`)}
+							onSubmit={handleNameUpdate}
 						/>
 					}
 				/>
