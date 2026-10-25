@@ -38,7 +38,7 @@ export interface IRepository<TModel, TModelIncludeAll extends TModel = TModel> {
 	 * @param data New data to update the record with
 	 * @returns The updated record
 	 */
-	update(id: UUID, data: TModel): Promise<TModel | null>;
+	update(id: UUID, data: Partial<TModel>): Promise<TModel | null>;
 }
 
 /**
@@ -105,5 +105,5 @@ export abstract class Repository<
 	 * @param data New data to update the record with
 	 * @returns The updated record
 	 */
-	abstract update(id: UUID, data: TModel): Promise<TModel | null>;
+	abstract update(id: UUID, data: Partial<TModel>): Promise<TModel | null>;
 }

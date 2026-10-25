@@ -51,7 +51,7 @@ export class CampaignRepository
 
 	override async update(
 		campaignId: UUID,
-		data: CampaignModel,
+		data: Partial<CampaignModel>,
 	): Promise<CampaignModel | null> {
 		try {
 			return await db.orm.public.Campaign.where({
