@@ -102,7 +102,7 @@ export class BaseObjectRouter<
 					return;
 				}
 
-				const model = await this.repository.getById(req.params.id);
+				const model = await this.repository.getByIdFull(req.params.id);
 				if (!model) {
 					res.status(404).send({
 						message: `${this.descriptor} with ID ${req.params.id} not found`,

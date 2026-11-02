@@ -4,12 +4,12 @@ import {
 } from '#shared/object-router.ts';
 import type { CampaignResponse } from './campaign-dtos.ts';
 import { toDto } from './campaign-mappers.ts';
-import type { CampaignModel } from './campaign-repository.ts';
+import type { CampaignRaw } from './campaign-repository.ts';
 
-export type CampaignRouterOpts = BaseObjectRouterOpts<CampaignModel>;
+export type CampaignRouterOpts = BaseObjectRouterOpts<CampaignRaw>;
 
 export class CampaignRouter extends BaseObjectRouter<
-	CampaignModel,
+	CampaignRaw,
 	CampaignResponse
 > {
 	constructor({ app, commandBus, repository }: CampaignRouterOpts) {

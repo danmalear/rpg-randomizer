@@ -5,7 +5,7 @@ import { BadRequestError, NotFoundError } from '#shared/error.ts';
 import { randomUUID, type UUID } from 'node:crypto';
 import { toDto } from './campaign-mappers.ts';
 import type {
-	CampaignModel,
+	CampaignRaw,
 	ICampaignRepository,
 } from './campaign-repository.ts';
 
@@ -85,7 +85,7 @@ export class CampaignCommandHandler implements ICommandHandler {
 
 		validateCreateCampaign(command.data);
 
-		const campaign: CampaignModel = {
+		const campaign: CampaignRaw = {
 			CampaignId: id,
 			Name: command.data.name,
 			CreatedUtc: createTime,

@@ -4,33 +4,37 @@ import { getMessage } from './error.ts';
 /**
  * Interface for data access repository - defines all baseline operations
  */
-export interface IRepository<TModel, TModelIncludeAll extends TModel = TModel> {
+export interface IRepository<
+	TModelRaw,
+	TModelMin extends TModelRaw = TModelRaw,
+	TModelFull extends TModelMin = TModelMin,
+> {
 	/**
 	 * Retrieves a record from the database by its UUID
 	 * @param id UUID of the record to retrieve
 	 * @returns The record with the given UUID, or null if not found
 	 */
-	getByIdRaw(id: UUID): Promise<TModel | null>;
+	getByIdMin(id: UUID): Promise<TModelMin | null>;
 
 	/**
 	 * Retrieves a record from the database by its UUID and hydrates any foreign key relationships
 	 * @param id UUID of the record to retrieve
 	 * @returns The record with the given UUID, or null if not found
 	 */
-	getById(id: UUID): Promise<TModelIncludeAll | null>;
+	getByIdFull(id: UUID): Promise<TModelFull | null>;
 
 	/**
 	 * Retrieves all records from the database
 	 * @returns An array of all records (empty array if none found)
 	 */
-	getAll(): Promise<TModel[]>;
+	getAll(): Promise<TModelMin[]>;
 
 	/**
 	 * Creates a new record in the database
 	 * @param data Data to insert into database
 	 * @returns The created record
 	 */
-	create(data: TModel): Promise<TModel>;
+	create(data: TModelRaw): Promise<TModelMin>;
 
 	/**
 	 * Updates an existing database record with new data
@@ -38,16 +42,17 @@ export interface IRepository<TModel, TModelIncludeAll extends TModel = TModel> {
 	 * @param data New data to update the record with
 	 * @returns The updated record
 	 */
-	update(id: UUID, data: Partial<TModel>): Promise<TModel | null>;
+	update(id: UUID, data: Partial<TModelRaw>): Promise<TModelMin | null>;
 }
 
 /**
  * Abstract for data access repository - defines all baseline operations and provides basic functionality
  */
 export abstract class Repository<
-	TModel,
-	TModelIncludeAll extends TModel = TModel,
-> implements IRepository<TModel, TModelIncludeAll> {
+	TModelRaw,
+	TModelMin extends TModelRaw = TModelRaw,
+	TModelFull extends TModelMin = TModelMin,
+> implements IRepository<TModelRaw, TModelMin, TModelFull> {
 	abstract descriptor: string;
 
 	getByIdError(id: UUID, e: unknown) {
@@ -77,27 +82,27 @@ export abstract class Repository<
 	 * @param id UUID of the record to retrieve
 	 * @returns The record with the given UUID, or null if not found
 	 */
-	abstract getByIdRaw(id: UUID): Promise<TModel | null>;
+	abstract getByIdMin(id: UUID): Promise<TModelMin | null>;
 
 	/**
 	 * Retrieves a record from the database by its UUID and hydrates any foreign key relationships
 	 * @param id UUID of the record to retrieve
 	 * @returns The record with the given UUID, or null if not found
 	 */
-	abstract getById(id: UUID): Promise<TModelIncludeAll | null>;
+	abstract getByIdFull(id: UUID): Promise<TModelFull | null>;
 
 	/**
 	 * Retrieves all records from the database
 	 * @returns An array of all records (empty array if none found)
 	 */
-	abstract getAll(): Promise<TModel[]>;
+	abstract getAll(): Promise<TModelMin[]>;
 
 	/**
 	 * Creates a new record in the database
 	 * @param data Data to insert into database
 	 * @returns The inserted record
 	 */
-	abstract create(data: TModel): Promise<TModel>;
+	abstract create(data: TModelRaw): Promise<TModelMin>;
 
 	/**
 	 * Updates an existing database record with new data
@@ -105,5 +110,8 @@ export abstract class Repository<
 	 * @param data New data to update the record with
 	 * @returns The updated record
 	 */
-	abstract update(id: UUID, data: Partial<TModel>): Promise<TModel | null>;
+	abstract update(
+		id: UUID,
+		data: Partial<TModelRaw>,
+	): Promise<TModelMin | null>;
 }

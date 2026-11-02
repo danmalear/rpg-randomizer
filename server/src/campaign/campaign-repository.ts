@@ -1,19 +1,20 @@
 import { db } from '#db';
 import type { Models } from '#prisma';
 import { Repository, type IRepository } from '#shared/repository.ts';
+import type { Scalars } from '@prisma/orm-postgres/components';
 import type { UUID } from 'crypto';
 
-export type CampaignModel = Models.public_Campaign;
+export type CampaignRaw = Scalars<Models.public_Campaign>;
 
-export type ICampaignRepository = IRepository<CampaignModel>;
+export type ICampaignRepository = IRepository<CampaignRaw>;
 
 export class CampaignRepository
-	extends Repository<CampaignModel>
+	extends Repository<CampaignRaw>
 	implements ICampaignRepository
 {
 	override descriptor = 'Campaign';
 
-	override async getByIdRaw(campaignId: UUID): Promise<CampaignModel | null> {
+	override async getByIdMin(campaignId: UUID): Promise<CampaignRaw | null> {
 		try {
 			return await db.orm.public.Campaign.first({
 				CampaignId: campaignId,
@@ -23,7 +24,7 @@ export class CampaignRepository
 		}
 	}
 
-	override async getById(campaignId: UUID): Promise<CampaignModel | null> {
+	override async getByIdFull(campaignId: UUID): Promise<CampaignRaw | null> {
 		try {
 			return await db.orm.public.Campaign.first({
 				CampaignId: campaignId,
@@ -33,7 +34,7 @@ export class CampaignRepository
 		}
 	}
 
-	override async getAll(): Promise<CampaignModel[]> {
+	override async getAll(): Promise<CampaignRaw[]> {
 		try {
 			return await db.orm.public.Campaign.all();
 		} catch (e) {
@@ -41,7 +42,7 @@ export class CampaignRepository
 		}
 	}
 
-	override async create(data: CampaignModel): Promise<CampaignModel> {
+	override async create(data: CampaignRaw): Promise<CampaignRaw> {
 		try {
 			return await db.orm.public.Campaign.create(data);
 		} catch (e) {
@@ -51,8 +52,8 @@ export class CampaignRepository
 
 	override async update(
 		campaignId: UUID,
-		data: Partial<CampaignModel>,
-	): Promise<CampaignModel | null> {
+		data: Partial<CampaignRaw>,
+	): Promise<CampaignRaw | null> {
 		try {
 			return await db.orm.public.Campaign.where({
 				CampaignId: campaignId,
